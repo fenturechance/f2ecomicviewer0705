@@ -74,13 +74,18 @@ export default {
             }
             .selectWrapper{
                 color:$b;
-
             }
             .switchGroup{
                 background-color: $b;
                 border-color: $w;
                 .switcher{
                     background-color: $w;
+                }
+            }
+            .comicGroup main .navigationGroup .tumbnailGroup ul li.now{
+                border-color: $g;
+                &:before{
+                    border-bottom-color: $g;
                 }
             }
         }

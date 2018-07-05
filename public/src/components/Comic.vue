@@ -27,30 +27,30 @@
         </header>
         <main>
             <div class="comicContentGroup">
-                <div class="leftControl">
+                <div class="left control" @click="changePage('prev')">
                     <i class="fas fa-angle-left"></i>
                 </div>
                 <div class="comic">
                     <img :src="nowPageUrl">
                 </div>
-                <div class="rightControl">
+                <div class="right control" @click="changePage('next')">
                     <i class="fas fa-angle-right"></i>
                 </div>
             </div>
             <div class="navigationGroup">
                 <div class="tumbnailGroup">
-                    <div class="previousChapter" :class="navigationControlStyle('previous')">
-                        <i class="fas fa-angle-double-right"></i>
-                    </div>
+                    <!-- <div class="previousChapter" :class="navigationControlStyle('previous')">
+                        <i class="fas fa-angle-double-left"></i>
+                    </div> -->
                     <ul>
-                        <li v-for="page in nowPageArr" :class="navigationImgStyle(page)">
+                        <li v-for="page in nowPageArr" :class="navigationImgStyle(page)" @click="changeNavPage(page)">
                             <span class="pageIndex">{{ page }}</span>
                             <img :src="comicUrlGen(page)" alt="">
                         </li>
                     </ul>
-                    <div class="nextChapter" :class="navigationControlStyle('next')">
+                    <!-- <div class="nextChapter" :class="navigationControlStyle('next')">
                         <i class="fas fa-angle-double-right"></i>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="scrollGroup">
                     <i class="fas fa-caret-left"></i>
@@ -79,7 +79,7 @@
                 return `${this.comicUrl + this.nowPage}.png`
             },
             half() {
-                return this.totalPage / 12;
+                return this.totalPage / 2;
             },
             lessThanHalf() {
                 return this.nowPage <= this.half;
@@ -100,7 +100,7 @@
                 if(this.lessThanHalf){
                     for (let i = 1; i <= this.half; i++) arr.push(i);
                 }else{
-                    for (let i = this.half + 1; i < this.totalPage; i++) arr.push(i);
+                    for (let i = this.half + 1; i <= this.totalPage; i++) arr.push(i);
                 }
                 return arr;
             }
@@ -119,9 +119,17 @@
             navigationImgStyle(i){
                 let index = i;
                 if(!this.lessThanHalf) index = index - this.half;
-                if(index == 1) return 'first';
                 if(i == this.nowPage) return 'now';
             },
+            changePage(prevOrNext){
+                if(this.nowPage == 1 && prevOrNext == 'prev') return;
+                if(this.nowPage == this.totalPage && prevOrNext == 'next') return;
+                if(prevOrNext == 'prev') this.nowPage -= 1;
+                if(prevOrNext == 'next') this.nowPage += 1;
+            },
+            changeNavPage(page){
+                this.nowPage = page;
+            }
         }
     }
 </script>
@@ -163,6 +171,57 @@
                         width: 23px;
                         height: 16px;
                         background-color: $gray;
+                    }
+                }
+            }
+        }
+        main{
+            margin: 20px 0 0 0;
+            .comicContentGroup{
+                position: relative;
+                .control{
+                    position: absolute;
+                    font-size: 40px;
+                    padding: 0 20px;
+                    top: 50%;
+                    cursor: pointer;
+                    &.right{
+                        right: 0;
+                        transform: translateY(-50%) translateX(100%);
+                    }
+                    &.left{
+                        transform: translateY(-50%) translateX(-100%);
+                    }
+                }
+
+            }
+            .navigationGroup{
+                margin: 20px 0 0 0;
+                .tumbnailGroup{
+                    ul{
+                        display: flex;
+                        li{
+                            margin: 0 10px;
+                            text-align: center;
+                            cursor: pointer;
+                            &.now{
+                                border: 5px solid $b;
+                                position: relative;
+                                &:before{
+                                    content: '';
+                                    position: absolute;
+                                    width: 0;
+                                    height: 0;
+                                    border-left: 10px solid transparent;
+                                    border-right: 10px solid transparent;
+                                    border-bottom: 10px solid $b;
+                                    left: 0;
+                                    right: 0;
+                                    margin: auto;
+                                    transform: translateY(-150%);
+                                }
+                            }
+                        }
                     }
                 }
             }

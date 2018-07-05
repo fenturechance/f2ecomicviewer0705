@@ -63,6 +63,7 @@
         background-color: $w;
         position: absolute;
         width: 100%;
+        z-index: 2;
         li{
             padding: 8px 10px;
             cursor: pointer;
