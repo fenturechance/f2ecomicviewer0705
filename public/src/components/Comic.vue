@@ -2,7 +2,7 @@
     <div class="comicGroup">
         <header>
             <div class="breadcrumb">
-                <h2 class="comicTitle">{{ comicDetail.title }}</h2>
+                <h2 class="comicTitle" @click="directToIndex">{{ comicDetail.title }}</h2>
                 <div class="arrow">
                     <i class="fas fa-caret-right"></i>
                 </div>
@@ -27,14 +27,18 @@
         </header>
         <main>
             <div class="comicContentGroup">
-                <div class="left control" @click="changePage('prev')">
-                    <i class="fas fa-angle-left"></i>
+                <div class="controlWrapper left" @click="changePage('prev')">
+                    <div class="control">
+                        <i class="fas fa-angle-left"></i>
+                    </div>
                 </div>
                 <div class="comic">
                     <img :src="nowPageUrl">
                 </div>
-                <div class="right control" @click="changePage('next')">
-                    <i class="fas fa-angle-right"></i>
+                <div class="controlWrapper right" @click="changePage('next')">
+                    <div class="control">
+                        <i class="fas fa-angle-right"></i>
+                    </div>
                 </div>
             </div>
             <div class="navigationGroup">
@@ -52,12 +56,12 @@
                         <i class="fas fa-angle-double-right"></i>
                     </div> -->
                 </div>
-                <div class="scrollGroup">
+                <!-- <div class="scrollGroup">
                     <i class="fas fa-caret-left"></i>
                     <div class="scroll"></div>
                     <div class="end"></div>
                     <i class="fas fa-caret-right"></i>
-                </div>
+                </div> -->
             </div>
         </main>
     </div>
@@ -67,10 +71,15 @@
     export default {
         data() {
             return {
-                nowChapter: 1,
+                nowChapter: this.$store.state.nowChapter,
                 nowPage : 1,
                 totalPage : 12,
                 comicUrl : 'https://hexschool.github.io/THE_F2E_Design/week5-comic%20viewer/assets/storyboard-',
+            }
+        },
+        watch: {
+            nowChapter() {
+                this.$store.getters.setNowChapters(this.nowChapter);
             }
         },
         computed: {
@@ -129,7 +138,10 @@
             },
             changeNavPage(page){
                 this.nowPage = page;
-            }
+            },
+            directToIndex(){
+                this.$router.push('/');
+            },
         }
     }
 </script>
@@ -142,6 +154,9 @@
             .breadcrumb{
                 display: flex;
                 align-items: center;
+                .comicTitle{
+                    cursor: pointer;
+                }
                 .arrow{
                     margin: 0 10px;
                 }
@@ -179,21 +194,33 @@
             margin: 20px 0 0 0;
             .comicContentGroup{
                 position: relative;
-                .control{
+                .controlWrapper{
+                    height: 100%;
                     position: absolute;
-                    font-size: 40px;
-                    padding: 0 20px;
-                    top: 50%;
+                    top: 0;
                     cursor: pointer;
+                    padding: 0 40px;
+                    &:hover{
+                        background-color: $b;
+                        .control{
+                            color: $g;
+                        }
+                    }
                     &.right{
                         right: 0;
-                        transform: translateY(-50%) translateX(100%);
+                        transform: translateX(100%);
                     }
                     &.left{
-                        transform: translateY(-50%) translateX(-100%);
+                        transform: translateX(-100%);
+                    }
+                    .control{
+                        position: absolute;
+                        font-size: 40px;
+                        top: 50%;
+                        transform: translateY(-50%) translateX(-50%);
+                        left: 50%;
                     }
                 }
-
             }
             .navigationGroup{
                 margin: 20px 0 0 0;

@@ -35,12 +35,18 @@ const store = new Vuex.Store({
             { title : 'The F2E Challenage Start!'},
             { title : 'Todo List is Going Crazy!'},
         ],
-        switchDay: 'day'
+        switchDay: 'day',
+        nowChapter: ''
+    },
+    getters: {
+        setNowChapters:(state)=>(chapter)=> {
+            state.nowChapter = chapter;
+        }
     },
     mutations: {
         switchDayNight(state) {
             state.switchDay = state.switchDay == 'day' ? 'night' : 'day';
-        }
+        },
     }
 })
 

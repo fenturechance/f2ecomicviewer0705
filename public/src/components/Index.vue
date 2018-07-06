@@ -56,7 +56,9 @@
                 return i == arr.length - 1;
             },
             directToComic(i) {
+                let page = i + 1 ;
                 this.$router.push('/comic');
+                this.$store.getters.setNowChapters(page);
             }
         }
     }

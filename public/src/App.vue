@@ -48,7 +48,7 @@ export default {
     }
     #app{
         background-color: $gray;
-        min-height: 100vh;
+        min-height: 101vh;
         &> header{
             background-color: $b;
             h1{
@@ -87,6 +87,15 @@ export default {
                 &:before{
                     border-bottom-color: $g;
                 }
+            }
+            .controlWrapper{
+                &:hover{
+                    background-color: $g;
+                    .control{
+                        color: $b;
+                    }
+                }
+
             }
         }
     }
